@@ -21,6 +21,7 @@ namespace Baseball.Model
         public virtual DbSet<BookingModel> BookingModels { get; set; }
         public virtual DbSet<EventModel> EventModels { get; set; }
         public virtual DbSet<LoginModel> LoginModels { get; set; }
+        public virtual DbSet<PlayerModel> PlayerModels { get; set; }
         public virtual DbSet<RefreeModel> RefreeModels { get; set; }
         public virtual DbSet<TeamModel> TeamModels { get; set; }
         public virtual DbSet<UserModel> UserModels { get; set; }
@@ -30,6 +31,7 @@ namespace Baseball.Model
         {
             if (!optionsBuilder.IsConfigured)
             {
+
                 optionsBuilder.UseSqlServer("Server=DESKTOP-LS5R3C6\\SQLEXPRESS;Database=baseball_t;Trusted_Connection=True;");
             }
         }
@@ -162,6 +164,8 @@ namespace Baseball.Model
                     .HasColumnName("password");
             });
 
+            
+
             modelBuilder.Entity<RefreeModel>(entity =>
             {
                 entity.HasKey(e => e.RefreeId)
@@ -266,6 +270,27 @@ namespace Baseball.Model
                 entity.Property(e => e.VenueName)
                     .HasMaxLength(20)
                     .HasColumnName("venueName");
+            });
+
+            modelBuilder.Entity<PlayerModel>(entity =>
+            {
+                entity.HasKey(e => e.FirstName)
+                    .HasName("PK__RefreeMo__32CF4B6EC6B7C031");
+
+                entity.ToTable("PlayerModel");
+
+                entity.Property(e => e.LastName)
+                    .ValueGeneratedNever()
+                    .HasColumnName("lastName");
+
+                entity.Property(e => e.Age)
+                    .HasColumnType("number")
+                    .HasColumnName("age");
+
+                entity.Property(e => e.Gender).HasColumnType("text").HasColumnName("gender");
+
+                entity.Property(e => e.TeamId)
+                    .HasColumnName("teamId");
             });
 
             OnModelCreatingPartial(modelBuilder);
